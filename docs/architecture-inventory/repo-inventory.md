@@ -107,6 +107,14 @@ not separately deployable services:
   isolation, `/v1/...` APIs, MFEs) has no realization in this repository — no such module,
   endpoint, message topic, or frontend exists. Labelled *Future/Intended State (Not
   Implemented)* / not applicable to this source clone.
+- **Catalog vs code conflict (Virtual Visit / Telehealth):** the CAKE catalog for tenant
+  `5K4DVCTX` describes a Virtual Visit / Telehealth Scheduling capability (a dedicated
+  "Virtual Visit Service", a Node.js virtual-visit service, `/api/v1/virtual-visits`
+  endpoints, Twilio Video integration, replica/scaling constraints, and virtual-visit domain
+  events). None of this is realized in this repository's code, endpoints, messaging, or
+  frontend. Per the Source-of-Truth rule, code is authoritative: recorded as *Future/Intended
+  State (Not Implemented)*. Whether it is planned scope for this platform is `[unknown]`
+  (product/architecture decision).
 
 ## Coverage
 
