@@ -398,6 +398,30 @@ omitted.
 
 ---
 
+## Service Lookup Index
+
+> Compact cross-reference for AI-agent and tooling consumption. For full capability descriptions and evidence, see Sections 1–4 above.
+
+This platform is a **single deployable** (`petclinic`, repo `spring-petclinic`). There are no secondary *services* — the capabilities are owned by Java **packages** inside the one JVM (Section 2), so there is exactly one row.
+
+| Service / Repo | Capabilities Owned (Primary) | Capabilities Supported (Secondary) | Confidence | Notes |
+|----------------|------------------------------|-------------------------------------|------------|-------|
+| `petclinic` | C1 Pet Owner Management, C2 Pet & Pet-Type Management, C3 Veterinary Visit Recording, C4 Veterinarian & Specialty Directory, C5 Clinic Web Presentation & Localization, C6 Relational Persistence & Schema Provisioning, C7 Platform Operations & Observability | — (no separate deployable exists) | medium | Single Spring Boot monolith (repo `spring-petclinic`, K8s/Maven deployable name `petclinic`); all seven capabilities realized in one JVM. Confidence held to **medium** by C7 (production posture of open Actuator/H2). Ownership is intra-JVM package-level, not cross-service; C1–C3 share the `owner` package + owner aggregate (diffuse boundary), and C6/C7 are cross-cutting. No CAKE repo→service / owning-team record (ABQ B1); CAKE holds only unrelated telehealth `Service` nodes and non-service `SystemComponent` nodes for PetClinic. |
+
+### Ownership statements
+
+`petclinic` implements the Pet Owner Management capability.
+`petclinic` implements the Pet & Pet-Type Management capability.
+`petclinic` implements the Veterinary Visit Recording capability.
+`petclinic` implements the Veterinarian & Specialty Directory capability.
+`petclinic` implements the Clinic Web Presentation & Localization capability.
+`petclinic` implements the Relational Persistence & Schema Provisioning capability.
+`petclinic` implements the Platform Operations & Observability capability.
+
+Components in scope: petclinic
+
+---
+
 ## Assumptions, Blockers & Open Questions
 
 > [!IMPORTANT]
