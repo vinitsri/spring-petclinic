@@ -216,6 +216,23 @@ C1↔C3 hand-offs are *logical* capability boundaries within one deployable, car
 path variables** — there is no session, token, event, or client-side store crossing them (no Spring
 Security, no client JS state; ui-inventory "Frontend state management", api-inventory "Auth note").
 
+**Owning repo / package per capability** (all in the single repo `spring-petclinic`, deployable
+`petclinic`; "owner" here is the Java **package** that realizes the capability, per capability-baseline
+§2 — there are no separate services):
+
+| Capability | Name | Owning repo → package |
+|-----------|------|-----------------------|
+| C1 | Pet Owner Management | `spring-petclinic` → `owner` package (`OwnerController`) |
+| C2 | Pet & Pet-Type Management | `spring-petclinic` → `owner` package (`PetController`) |
+| C3 | Veterinary Visit Recording | `spring-petclinic` → `owner` package (`VisitController`) |
+| C4 | Veterinarian & Specialty Directory | `spring-petclinic` → `vet` package (`VetController`) |
+| C5 | Clinic Web Presentation & Localization | `spring-petclinic` → `system` package (`WelcomeController`, `WebConfiguration`) + `templates/` |
+| C7 | Platform Operations & Observability | `spring-petclinic` → `system` package (`CrashController`) + Actuator/k8s |
+
+Each **From → To** in the hand-off table below resolves its owning repo/package through this mapping;
+every hand-off is therefore intra-repo (a package boundary within `petclinic`), not a cross-service
+call.
+
 | Hand-off (From → To) | Route transition | Shared state carried | Mechanism / evidence |
 |----------------------|------------------|----------------------|----------------------|
 | **C5 → C4** (Presentation → Vet Directory) | `GET /` → `GET /vets.html` | none | Clean boundary — vet list fetches its own data via `@Cacheable("vets")` `VetRepository.findAll` on entry; no param passed. Navbar link `layout.html:51` |
