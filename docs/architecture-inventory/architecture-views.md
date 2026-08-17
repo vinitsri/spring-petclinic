@@ -3,7 +3,7 @@
 > **Evidence basis:** `docs/architecture-inventory/repo-inventory.md`, `docs/architecture-inventory/repo-summary/spring-petclinic.md`. (`docs/architecture-inventory/human-context-notes.md` is **not present**; the only human context supplied by the orchestrator was three `repo_inventory: approved` HOTL responses.) Supplemental non-authoritative context was read from the CAKE catalog (working tenant `5K4DVCTX`) and is used only for §6 intended-state notes — it never creates a diagram element.
 > **Confidence legend:** `[confirmed]` = stated in / directly evidenced by inventory, repo summary, or cited code · `[inferred]` = reasonable from partial signals · `[unknown]` = insufficient evidence
 
-> **Scope note:** The workspace contains **one** repository, `spring-petclinic` — a single-deployable Spring Boot 4.1.0 monolith (Kubernetes/Maven name `petclinic`). There are **no** other services, so there is no inter-service call graph, no shared-library divergence, and no cross-service datastore coupling. The diagrams below therefore describe one deployable, its internal package boundaries, its runtime request paths, and its deployment topology. Where the CAKE catalog implies additional services (e.g. a "Virtual Visit / Telehealth" service), **no code realization exists in this clone** — those are recorded as intended/future state in §6, never drawn.
+> **Scope note:** The workspace contains **one** repository, `spring-petclinic` — a single-deployable Spring Boot 4.1.0 monolith (Kubernetes/Maven name `petclinic`). There are **no** other services, so there is no inter-service call graph, no shared-library divergence, and no cross-service datastore coupling. The diagrams below therefore describe one deployable, its internal package boundaries, its runtime request paths, and its deployment topology. Diagrams depict only code-evidenced elements; anything absent from this clone is not drawn. Catalog-implied-but-unrealized capabilities are captured as a brief gap in §6, and reconciled in detail in the inventory and baseline documents.
 
 ---
 
@@ -13,19 +13,19 @@
 
 ```mermaid
 graph TD
-    user["Clinic staff / browser users<br/>(unauthenticated)"]
-    subgraph "PetClinic (single deployable)"
-        svc["petclinic<br/>Spring Boot 4.1.0 MVC + Thymeleaf<br/>(repo: spring-petclinic)"]
-        actuator["Actuator + H2 console<br/>/actuator/* /h2-console [confirmed]"]
+    user["Clinic staff and browser users, unauthenticated"]
+    subgraph petclinic_deployable["PetClinic single deployable"]
+        svc["petclinic - Spring Boot 4.1.0 MVC and Thymeleaf, repo spring-petclinic"]
+        actuator["Actuator and H2 console - actuator and h2-console endpoints [confirmed]"]
     end
-    db[("Relational DB<br/>H2 in-mem default / MySQL / PostgreSQL")]
-    assets["WebJars static assets<br/>Bootstrap 5.3.8, font-awesome 4.7.0"]
+    db[("Relational DB - H2 in-mem default, MySQL, or PostgreSQL")]
+    assets["WebJars static assets - Bootstrap 5.3.8, font-awesome 4.7.0"]
 
-    user -->|"HTTP GET/POST HTML, port 8080 [confirmed]"| svc
-    user -->|"GET /vets JSON (@ResponseBody) [confirmed]"| svc
+    user -->|"HTTP GET and POST HTML, port 8080 [confirmed]"| svc
+    user -->|"GET vets JSON via ResponseBody [confirmed]"| svc
     svc -->|"serves bundled assets [confirmed]"| assets
-    svc -->|"JDBC via Spring Data JPA / Hibernate [confirmed]"| db
-    svc -.->|"exposes (dev/test only) [confirmed]"| actuator
+    svc -->|"JDBC via Spring Data JPA and Hibernate [confirmed]"| db
+    svc -.->|"exposes, dev and test only [confirmed]"| actuator
 ```
 
 **Evidence references:** `README.md`; `pom.xml`, `build.gradle` (`spring-boot-starter-webmvc`, `-thymeleaf`, `-data-jpa`, `postgresql`, `mysql-connector-j`, `h2`, WebJars); `src/main/java/.../PetClinicApplication.java`; controllers under `.../owner/`, `.../vet/`, `.../system/`; `src/main/resources/application.properties` (`management.endpoints.web.exposure.include=*`); `k8s/petclinic.yml` (container port 8080).
@@ -95,12 +95,12 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     actor User as Clinic staff (browser)
-    participant VC as VetController (repo: spring-petclinic)
-    participant Cache as Caffeine 'vets' cache
+    participant VC as VetController (repo spring-petclinic)
     participant VR as VetRepository
+    participant Cache as Caffeine vets cache
     participant DB as Relational DB
 
-    User->>VC: GET /vets.html?page=n [confirmed]
+    User->>VC: GET vets.html page=n [confirmed]
     VC->>VR: findAll(pageable) [confirmed]
     VR->>Cache: lookup 'vets' key [confirmed]
     alt cache miss
@@ -247,7 +247,7 @@ erDiagram
 - **`operational` / `integration`** — Whether Maven or Gradle is the canonical release path is unstated; both are wired into CI `[unknown]`.
 - **`operational`** — Production restriction of the fully-exposed Actuator (`management.endpoints.web.exposure.include=*`) and the H2 console is not evidenced in-repo; assumed dev-only per inline comments `[inferred]`.
 - **`operational`** — No Micrometer metrics registry (e.g. Prometheus) and no distributed tracing (OpenTelemetry/Zipkin) dependency exists; if distributed observability is expected it is a gap `[confirmed]` absent.
-- **`integration` (intended/future state — CAKE, not in code)** — The CAKE catalog for tenant `5K4DVCTX` describes a **Virtual Visit / Telehealth Scheduling** capability (a dedicated "Virtual Visit Service", a "Node.js virtual-visit service", `/api/v1/virtual-visits` endpoints, Twilio Video integration, replica/scaling constraints, and virtual-visit domain events). **None of this is realized in this repository's code, endpoints, messaging, or frontend.** Per the Source-of-Truth rule, code is authoritative: these are recorded here as *Future/Intended State (Not Implemented)* and are deliberately **not** drawn in any diagram. Whether they represent planned scope for this platform is `[unknown]` (product/architecture decision).
+- **`integration` (gap)** — The catalog references a Virtual Visit / Telehealth capability with no code realization in this clone, so it is not drawn in any diagram. The full catalog-vs-code reconciliation lives in the inventory and baseline documents `[unknown]`.
 - **`schema`** — No migration tool (Flyway/Liquibase); schema drift across the three `schema.sql` variants (H2/MySQL/PostgreSQL) is managed manually and could diverge; not independently verified here `[inferred]`.
 
 ---
@@ -276,4 +276,4 @@ erDiagram
 | Q1 | Is Maven or Gradle the canonical build/release path? | Both are wired into CI; downstream SBOM/native automation must pick one. | — | Platform build owner |
 | Q2 | Are the fully-exposed Actuator endpoints and the H2 console network-restricted in production? | Open management/DB surfaces are security-sensitive and affect the §1/§4 boundary. | Assumed dev-only per inline comments; production controls unverified. | Security / platform owner |
 | Q3 | Should Micrometer metrics export and/or distributed tracing be added? | No metrics-registry or tracing dependency exists today; affects operational reasoning. | Not present; add only if observability requirements demand it. | Platform / observability owner |
-| Q4 | Does the CAKE "Virtual Visit / Telehealth Scheduling" capability (Node.js virtual-visit service, Twilio Video, `/api/v1/virtual-visits`) represent planned scope for this platform? | It appears in the catalog with no code realization in this repo; determines whether it is future scope or unrelated catalog noise. | Treat as Future/Intended State (Not Implemented) until code appears. | Product / architecture owner |
+| Q4 | Does the catalog Virtual Visit / Telehealth capability represent planned scope for this platform? | No code realization exists in this clone; the detailed catalog-vs-code reconciliation is tracked in the inventory and baseline documents. | Pending; see inventory/baseline. | Product / architecture owner |
