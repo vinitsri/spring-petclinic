@@ -301,14 +301,22 @@ this batch at the ≤ 5-file limit:
 - **ADR-CANDIDATE-009** → `docs/adr/cloud-native-buildpacks-image-build.md` ✅ generated
 - **ADR-CANDIDATE-010** → `docs/adr/dual-build-system-maven-gradle.md` ✅ generated
 
-### Remaining backlog (next batch)
-Author these in batch 3 (≤ 5 per batch), preserving candidate→file traceability:
+## Generated (batch 3 of 3 — 2026-08-18)
+The remaining five candidates (deferred second-batch + backlog priority) have been authored as ADR
+files under `docs/adr/` (descriptive kebab-case stems, no numeric prefix). This completes the
+15-candidate backlog:
 
-- **Batch 3 (deferred second-batch + backlog priority):** ADR-CANDIDATE-011 (Kubernetes plain
-  manifests + service binding, no Helm — deferred from batch 2), ADR-CANDIDATE-012 (GraalVM
-  native-image support), ADR-CANDIDATE-013 (build-time quality & supply-chain gates as governance),
-  ADR-CANDIDATE-014 (observability posture — Actuator-only), ADR-CANDIDATE-015 (layered uniqueness
-  enforcement).
+- **ADR-CANDIDATE-011** → `docs/adr/kubernetes-plain-manifests-service-binding.md` ✅ generated
+- **ADR-CANDIDATE-012** → `docs/adr/graalvm-native-image-support.md` ✅ generated
+- **ADR-CANDIDATE-013** → `docs/adr/build-time-quality-supply-chain-gates.md` ✅ generated
+- **ADR-CANDIDATE-014** → `docs/adr/actuator-only-observability-posture.md` ✅ generated
+- **ADR-CANDIDATE-015** → `docs/adr/layered-uniqueness-enforcement.md` ✅ generated
+
+### Remaining backlog (next batch)
+None — all 15 candidates (ADR-CANDIDATE-001 … 015) have been authored across batches 1–3. No
+further ADR batches are required unless the source-of-truth open question (Q1 below — whether the
+CAKE scheduling/EMR modernization program is in scope for this platform) is confirmed, which would
+generate a distinct second wave of candidates.
 
 ## Merge Recommendations
 - **ADR-CANDIDATE-004 + ADR-CANDIDATE-005** — if the author prefers a single "Database portability &
