@@ -290,17 +290,25 @@ kebab-case stems, no numeric prefix per the platform naming rule):
 - **ADR-CANDIDATE-002** → `docs/adr/server-rendered-mvc-thymeleaf-ui.md` ✅ generated
 - **ADR-CANDIDATE-003** → `docs/adr/aggregate-root-persistence-boundary.md` ✅ generated
 
-### Remaining backlog (next batches)
-Author these in subsequent batches (≤ 5 per batch), preserving candidate→file traceability:
+## Generated (batch 2 of 3 — 2026-08-18)
+Five of the six second-batch candidates have been authored as ADR files under `docs/adr/`
+(descriptive kebab-case stems, no numeric prefix). ADR-CANDIDATE-011 was deferred to batch 3 to keep
+this batch at the ≤ 5-file limit:
 
-- **Batch 2 (second-batch priority):** ADR-CANDIDATE-005 (multi-engine datastore via Spring profiles),
-  ADR-CANDIDATE-006 (in-process read-through cache), ADR-CANDIDATE-008 (management/diagnostics
-  endpoint exposure posture), ADR-CANDIDATE-009 (Cloud Native Buildpacks over a Dockerfile),
-  ADR-CANDIDATE-010 (dual build system, undeclared canonical), ADR-CANDIDATE-011 (Kubernetes plain
-  manifests + service binding, no Helm).
-- **Batch 3 (backlog priority):** ADR-CANDIDATE-012 (GraalVM native-image support),
-  ADR-CANDIDATE-013 (build-time quality & supply-chain gates as governance), ADR-CANDIDATE-014
-  (observability posture — Actuator-only), ADR-CANDIDATE-015 (layered uniqueness enforcement).
+- **ADR-CANDIDATE-005** → `docs/adr/multi-engine-datastore-spring-profiles.md` ✅ generated
+- **ADR-CANDIDATE-006** → `docs/adr/in-process-read-through-cache.md` ✅ generated
+- **ADR-CANDIDATE-008** → `docs/adr/management-diagnostics-endpoint-exposure.md` ✅ generated
+- **ADR-CANDIDATE-009** → `docs/adr/cloud-native-buildpacks-image-build.md` ✅ generated
+- **ADR-CANDIDATE-010** → `docs/adr/dual-build-system-maven-gradle.md` ✅ generated
+
+### Remaining backlog (next batch)
+Author these in batch 3 (≤ 5 per batch), preserving candidate→file traceability:
+
+- **Batch 3 (deferred second-batch + backlog priority):** ADR-CANDIDATE-011 (Kubernetes plain
+  manifests + service binding, no Helm — deferred from batch 2), ADR-CANDIDATE-012 (GraalVM
+  native-image support), ADR-CANDIDATE-013 (build-time quality & supply-chain gates as governance),
+  ADR-CANDIDATE-014 (observability posture — Actuator-only), ADR-CANDIDATE-015 (layered uniqueness
+  enforcement).
 
 ## Merge Recommendations
 - **ADR-CANDIDATE-004 + ADR-CANDIDATE-005** — if the author prefers a single "Database portability &
