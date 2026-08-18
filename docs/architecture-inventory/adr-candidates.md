@@ -280,6 +280,28 @@ Ordered by dependency (foundational first):
 4. **ADR-CANDIDATE-002 — Server-rendered MVC (Thymeleaf) over client-side SPA/MFE** (depends on 001)
 5. **ADR-CANDIDATE-003 — Aggregate-root persistence boundary (Owner aggregate)** (depends on 001)
 
+## Generated (batch 1 of 3 — 2026-08-18)
+The Recommended First Batch has been authored as ADR files under `docs/adr/` (descriptive
+kebab-case stems, no numeric prefix per the platform naming rule):
+
+- **ADR-CANDIDATE-001** → `docs/adr/single-deployable-layered-monolith.md` ✅ generated
+- **ADR-CANDIDATE-004** → `docs/adr/script-based-schema-provisioning.md` ✅ generated
+- **ADR-CANDIDATE-007** → `docs/adr/no-application-level-authentication.md` ✅ generated
+- **ADR-CANDIDATE-002** → `docs/adr/server-rendered-mvc-thymeleaf-ui.md` ✅ generated
+- **ADR-CANDIDATE-003** → `docs/adr/aggregate-root-persistence-boundary.md` ✅ generated
+
+### Remaining backlog (next batches)
+Author these in subsequent batches (≤ 5 per batch), preserving candidate→file traceability:
+
+- **Batch 2 (second-batch priority):** ADR-CANDIDATE-005 (multi-engine datastore via Spring profiles),
+  ADR-CANDIDATE-006 (in-process read-through cache), ADR-CANDIDATE-008 (management/diagnostics
+  endpoint exposure posture), ADR-CANDIDATE-009 (Cloud Native Buildpacks over a Dockerfile),
+  ADR-CANDIDATE-010 (dual build system, undeclared canonical), ADR-CANDIDATE-011 (Kubernetes plain
+  manifests + service binding, no Helm).
+- **Batch 3 (backlog priority):** ADR-CANDIDATE-012 (GraalVM native-image support),
+  ADR-CANDIDATE-013 (build-time quality & supply-chain gates as governance), ADR-CANDIDATE-014
+  (observability posture — Actuator-only), ADR-CANDIDATE-015 (layered uniqueness enforcement).
+
 ## Merge Recommendations
 - **ADR-CANDIDATE-004 + ADR-CANDIDATE-005** — if the author prefers a single "Database portability &
   provisioning strategy" record, these can be merged: the multi-engine choice (005) and the
